@@ -1,0 +1,45 @@
+#hanadi Abdulrahem alsulami - kau - jed - ksa 
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+
+#read the datset
+
+heart_dataset=pd.read_csv('heart_failure_clinical_records_dataset.csv')
+heart_dataset.info()
+
+#list the featuers to split the data set later
+
+x_features=list(heart_dataset.columns.values.tolist())[:-1]
+print('the dataset has the folloing features:',x_features)
+
+#Define tha classes as y, featuers As x
+
+y=heart_dataset['DEATH_EVENT']
+x=heart_dataset[x_features]
+
+#split the dataset into training and testing set
+
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
+
+#apply k = 3
+model = KNeighborsClassifier(n_neighbors=3)
+
+#Train the KNN algorithm
+model.fit(X_train,y_train)
+
+#Test the algorithm on the test dataset
+
+predicted= model.predict(X_test)
+
+#Report the accuracy, precision, and recall.
+
+print(confusion_matrix(y_test, predicted))
+print(classification_report(y_test, predicted))
+
+print(predicted)
+[1]
